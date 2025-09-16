@@ -1,11 +1,11 @@
 const perguntas = [
     {
-        pergunta: 'Qual é a capital da frança?',
+        pergunta: 'Qual é a capital da França?',
         alternativas: ['A. Madrid', 'B. Paris', 'C. Roma', 'D. Berlim'],
         respostaCorreta: 'B'
     },
     {
-        pergunta: 'Em que ano a primeira guerra mundial começou?',
+        pergunta: 'Em que ano a Primeira Guerra Mundial começou?',
         alternativas: ['A. 1905', 'B. 1914', 'C. 1939', 'D. 1910'],
         respostaCorreta: 'B'
     },
@@ -25,7 +25,7 @@ const perguntas = [
         respostaCorreta: 'B'
     },
     {
-        pergunta: 'Qual o continente com maior números de países?',
+        pergunta: 'Qual o continente com maior número de países?',
         alternativas: ['A. Ásia', 'B. África', 'C. Europa', 'D. América'],
         respostaCorreta: 'B'
     },
@@ -72,13 +72,22 @@ function exibirPergunta() {
 function verificarResposta(indice) {
     const pergunta = perguntas[perguntaAtual];
     const letraResposta = String.fromCharCode(65 + indice); // A, B, C, D
+    const alternativas = document.querySelectorAll('#alternativas li');
 
     if (letraResposta === pergunta.respostaCorreta) {
         acertos++;
+        alternativas[indice].style.backgroundColor = '#4CAF50'; // Luz verde (correto)
+        alternativas[indice].textContent += " - Você acertou!";
+    } else {
+        alternativas[indice].style.backgroundColor = '#f44336'; // Luz vermelha (errado)
+        // Encontre a alternativa correta e marque com verde
+        const indiceCorreto = pergunta.alternativas.indexOf(`${pergunta.respostaCorreta}. ${pergunta[pergunta.respostaCorreta]}`);
+        alternativas[indiceCorreto].style.backgroundColor = '#4CAF50';
+        alternativas[indiceCorreto].textContent += " - Resposta correta!";
     }
 
-    const nextBtn = document.getElementById('nextBtn');
-    nextBtn.disabled = false;
+    // Habilita o botão "Próxima"
+    document.getElementById('nextBtn').disabled = false;
 }
 
 function nextQuestion() {
@@ -95,7 +104,7 @@ function nextQuestion() {
 function exibirResultado() {
     document.getElementById('quiz').style.display = 'none';
     document.getElementById('resultado').style.display = 'block';
-    document.getElementById('acertos').textContent = `Você acertou ${acertos} de 10 perguntas!`;
+    document.getElementById('acertos').textContent = `Você acertou ${acertos} de ${perguntas.length} perguntas!`;
 }
 
 function reiniciarQuiz() {
