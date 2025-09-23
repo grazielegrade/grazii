@@ -89,9 +89,10 @@ function verificarResposta(indice) {
     } else {
         erros++;
         alternativas[indice].classList.add('incorrect'); // Luz vermelha
-        const indiceCorreto = pergunta.alternativas.indexOf(`${pergunta.respostaCorreta}. ${pergunta[pergunta.respostaCorreta]}`);
-        alternativas[indiceCorreto].classList.add('correct');
-        alternativas[indiceCorreto].textContent += " - Resposta correta!";
+        alternativas[indice].textContent += " - Você errou!";
+        // Pula para a próxima pergunta após um erro
+        setTimeout(nextQuestion, 1000); // Atraso de 1 segundo para o feedback
+        return; // Retorna para não continuar o código de exibição de respostas
     }
 
     // Habilita o botão "Próxima"
