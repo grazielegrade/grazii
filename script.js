@@ -53,6 +53,7 @@ const perguntas = [
 
 let perguntaAtual = 0;
 let acertos = 0;
+let erros = 0;
 
 function exibirPergunta() {
     const pergunta = perguntas[perguntaAtual];
@@ -73,21 +74,30 @@ function verificarResposta(indice) {
     const pergunta = perguntas[perguntaAtual];
     const letraResposta = String.fromCharCode(65 + indice); // A, B, C, D
     const alternativas = document.querySelectorAll('#alternativas li');
+    let proximaPergunta = false;
 
     if (letraResposta === pergunta.respostaCorreta) {
         acertos++;
         alternativas[indice].style.backgroundColor = '#4CAF50'; // Luz verde (correto)
         alternativas[indice].textContent += " - Você acertou!";
+        // Não avança ainda, espera o botão "Próxima"
     } else {
+        erros++;
         alternativas[indice].style.backgroundColor = '#f44336'; // Luz vermelha (errado)
         // Encontre a alternativa correta e marque com verde
         const indiceCorreto = pergunta.alternativas.indexOf(`${pergunta.respostaCorreta}. ${pergunta[pergunta.respostaCorreta]}`);
         alternativas[indiceCorreto].style.backgroundColor = '#4CAF50';
         alternativas[indiceCorreto].textContent += " - Resposta correta!";
+        proximaPergunta = true;
     }
 
-    // Habilita o botão "Próxima"
-    document.getElementById('nextBtn').disabled = false;
+    // Habilita o botão "Próxima" se for necessário avançar
+    if (!proximaPergunta) {
+        document.getElementById('nextBtn').disabled = false;
+    } else {
+        // Se errou, pula para a próxima pergunta após 2 segundos
+        setTimeout(nextQuestion, 2000);
+    }
 }
 
 function nextQuestion() {
@@ -105,11 +115,13 @@ function exibirResultado() {
     document.getElementById('quiz').style.display = 'none';
     document.getElementById('resultado').style.display = 'block';
     document.getElementById('acertos').textContent = `Você acertou ${acertos} de ${perguntas.length} perguntas!`;
+    document.getElementById('erros').textContent = `Você errou ${erros} de ${perguntas.length} perguntas!`;
 }
 
 function reiniciarQuiz() {
     perguntaAtual = 0;
     acertos = 0;
+    erros = 0;
     document.getElementById('quiz').style.display = 'block';
     document.getElementById('resultado').style.display = 'none';
     exibirPergunta();
