@@ -70,7 +70,7 @@ function exibirPergunta() {
             alternativasElement.appendChild(li);
         });
 
-        // Desabilitar o botão "Próxima"
+        // Desabilitar o botão "Próxima" enquanto não responder
         document.getElementById('nextBtn').disabled = true;
     } else {
         exibirResultado();
@@ -90,9 +90,6 @@ function verificarResposta(indice) {
         erros++;
         alternativas[indice].classList.add('incorrect'); // Luz vermelha
         alternativas[indice].textContent += " - Você errou!";
-        // Pula para a próxima pergunta após um erro
-        setTimeout(nextQuestion, 1000); // Atraso de 1 segundo para o feedback
-        return; // Retorna para não continuar o código de exibição de respostas
     }
 
     // Habilita o botão "Próxima"
