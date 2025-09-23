@@ -1,52 +1,52 @@
 const perguntas = [
     {
-        pergunta: 'Qual é a capital da França?',
-        alternativas: ['A. Madrid', 'B. Paris', 'C. Roma', 'D. Berlim'],
+        pergunta: 'Qual o maior planeta do Sistema Solar?',
+        alternativas: ['A. Terra', 'B. Júpiter', 'C. Saturno', 'D. Netuno'],
         respostaCorreta: 'B'
     },
     {
-        pergunta: 'Em que ano a Primeira Guerra Mundial começou?',
-        alternativas: ['A. 1905', 'B. 1914', 'C. 1939', 'D. 1910'],
-        respostaCorreta: 'B'
-    },
-    {
-        pergunta: 'Em que ano o Brasil conquistou a independência?',
-        alternativas: ['A. 1808', 'B. 1822', 'C. 1889', 'D. 1500'],
-        respostaCorreta: 'B'
-    },
-    {
-        pergunta: 'Quem pintou a Mona Lisa?',
-        alternativas: ['A. Pablo Picasso', 'B. Leonardo da Vinci', 'C. Vincent van Gogh', 'D. Claude Monet'],
-        respostaCorreta: 'B'
-    },
-    {
-        pergunta: 'Qual é o maior oceano do mundo?',
-        alternativas: ['A. Oceano Atlântico', 'B. Oceano Pacífico', 'C. Oceano Índico', 'D. Oceano Ártico'],
-        respostaCorreta: 'B'
-    },
-    {
-        pergunta: 'Qual o continente com maior número de países?',
-        alternativas: ['A. Ásia', 'B. África', 'C. Europa', 'D. América'],
-        respostaCorreta: 'B'
-    },
-    {
-        pergunta: 'Qual é o elemento químico representado pela sigla H?',
-        alternativas: ['A. Hidrogênio', 'B. Hélio', 'C. Oxigênio', 'D. Carbono'],
+        pergunta: 'Qual é o símbolo químico do Ouro?',
+        alternativas: ['A. Au', 'B. Ag', 'C. O', 'D. Hg'],
         respostaCorreta: 'A'
     },
     {
-        pergunta: 'Quem escreveu "Dom Casmurro"?',
-        alternativas: ['A. Machado de Assis', 'B. José de Alencar', 'C. Clarice Lispector', 'D. Érico Veríssimo'],
+        pergunta: 'Quem descobriu a América?',
+        alternativas: ['A. Cristóvão Colombo', 'B. Vasco da Gama', 'C. Pedro Álvares Cabral', 'D. Marco Polo'],
         respostaCorreta: 'A'
     },
     {
-        pergunta: 'Qual a unidade de medida de temperatura no Sistema Internacional?',
-        alternativas: ['A. Celsius', 'B. Fahrenheit', 'C. Kelvin', 'D. Newton'],
+        pergunta: 'Qual o país com maior população do mundo?',
+        alternativas: ['A. Estados Unidos', 'B. China', 'C. Índia', 'D. Rússia'],
+        respostaCorreta: 'B'
+    },
+    {
+        pergunta: 'Qual é o continente com maior área?',
+        alternativas: ['A. América', 'B. Ásia', 'C. Europa', 'D. África'],
+        respostaCorreta: 'B'
+    },
+    {
+        pergunta: 'Em qual cidade está localizada a Torre Eiffel?',
+        alternativas: ['A. Londres', 'B. Roma', 'C. Paris', 'D. Madrid'],
         respostaCorreta: 'C'
     },
     {
-        pergunta: 'Quem foi o primeiro presidente do Brasil?',
-        alternativas: ['A. Getúlio Vargas', 'B. Juscelino Kubitschek', 'C. Marechal Deodoro da Fonseca', 'D. Washington Luís'],
+        pergunta: 'Qual é o elemento químico representado pela sigla O?',
+        alternativas: ['A. Oxigênio', 'B. Ouro', 'C. Ozone', 'D. Osmium'],
+        respostaCorreta: 'A'
+    },
+    {
+        pergunta: 'Qual é o esporte mais popular do mundo?',
+        alternativas: ['A. Futebol', 'B. Basquete', 'C. Tênis', 'D. Vôlei'],
+        respostaCorreta: 'A'
+    },
+    {
+        pergunta: 'Quem foi o primeiro homem a pisar na Lua?',
+        alternativas: ['A. Neil Armstrong', 'B. Yuri Gagarin', 'C. Alan Shepard', 'D. John Glenn'],
+        respostaCorreta: 'A'
+    },
+    {
+        pergunta: 'Qual é a maior cadeia de montanhas do mundo?',
+        alternativas: ['A. Andes', 'B. Alpes', 'C. Himalaias', 'D. Pirineus'],
         respostaCorreta: 'C'
     }
 ];
@@ -56,59 +56,51 @@ let acertos = 0;
 let erros = 0;
 
 function exibirPergunta() {
-    const pergunta = perguntas[perguntaAtual];
-    document.getElementById('pergunta').textContent = pergunta.pergunta;
+    if (perguntaAtual < perguntas.length) {
+        const pergunta = perguntas[perguntaAtual];
+        document.getElementById('pergunta').textContent = pergunta.pergunta;
 
-    const alternativasElement = document.getElementById('alternativas');
-    alternativasElement.innerHTML = '';
+        const alternativasElement = document.getElementById('alternativas');
+        alternativasElement.innerHTML = '';
 
-    pergunta.alternativas.forEach((alternativa, index) => {
-        const li = document.createElement('li');
-        li.textContent = alternativa;
-        li.onclick = () => verificarResposta(index);
-        alternativasElement.appendChild(li);
-    });
+        pergunta.alternativas.forEach((alternativa, index) => {
+            const li = document.createElement('li');
+            li.textContent = alternativa;
+            li.onclick = () => verificarResposta(index);
+            alternativasElement.appendChild(li);
+        });
+
+        // Desabilitar o botão "Próxima"
+        document.getElementById('nextBtn').disabled = true;
+    } else {
+        exibirResultado();
+    }
 }
 
 function verificarResposta(indice) {
     const pergunta = perguntas[perguntaAtual];
     const letraResposta = String.fromCharCode(65 + indice); // A, B, C, D
     const alternativas = document.querySelectorAll('#alternativas li');
-    let proximaPergunta = false;
-
+    
     if (letraResposta === pergunta.respostaCorreta) {
         acertos++;
-        alternativas[indice].style.backgroundColor = '#4CAF50'; // Luz verde (correto)
+        alternativas[indice].classList.add('correct'); // Luz verde
         alternativas[indice].textContent += " - Você acertou!";
-        // Não avança ainda, espera o botão "Próxima"
     } else {
         erros++;
-        alternativas[indice].style.backgroundColor = '#f44336'; // Luz vermelha (errado)
-        // Encontre a alternativa correta e marque com verde
+        alternativas[indice].classList.add('incorrect'); // Luz vermelha
         const indiceCorreto = pergunta.alternativas.indexOf(`${pergunta.respostaCorreta}. ${pergunta[pergunta.respostaCorreta]}`);
-        alternativas[indiceCorreto].style.backgroundColor = '#4CAF50';
+        alternativas[indiceCorreto].classList.add('correct');
         alternativas[indiceCorreto].textContent += " - Resposta correta!";
-        proximaPergunta = true;
     }
 
-    // Habilita o botão "Próxima" se for necessário avançar
-    if (!proximaPergunta) {
-        document.getElementById('nextBtn').disabled = false;
-    } else {
-        // Se errou, pula para a próxima pergunta após 2 segundos
-        setTimeout(nextQuestion, 2000);
-    }
+    // Habilita o botão "Próxima"
+    document.getElementById('nextBtn').disabled = false;
 }
 
 function nextQuestion() {
     perguntaAtual++;
-
-    if (perguntaAtual < perguntas.length) {
-        exibirPergunta();
-        document.getElementById('nextBtn').disabled = true;
-    } else {
-        exibirResultado();
-    }
+    exibirPergunta();
 }
 
 function exibirResultado() {
@@ -125,10 +117,8 @@ function reiniciarQuiz() {
     document.getElementById('quiz').style.display = 'block';
     document.getElementById('resultado').style.display = 'none';
     exibirPergunta();
-    document.getElementById('nextBtn').disabled = true;
 }
 
 window.onload = () => {
     exibirPergunta();
-    document.getElementById('nextBtn').disabled = true;
 };

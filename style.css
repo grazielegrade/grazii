@@ -74,3 +74,13 @@ li:hover {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.correct {
+    background-color: #4CAF50; /* Verde claro */
+    color: white;
+}
+
+.incorrect {
+    background-color: #f44336; /* Vermelho */
+    color: white;
+}
